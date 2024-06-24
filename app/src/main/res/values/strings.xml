@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">StoryFeed</string>
+    <string name="title_welcome_page">Selamat datang di Story Feed!</string>
+    <string name="message_welcome_page">Mari berbagi cerita menarik di Feed mu ya!</string>
+    <string name="login">Login</string>
+    <string name="signup">Sign-Up</string>
+    <string name="title_login_page">Sudah siap untuk berbagi ceritaa?</string>
+    <string name="message_login_page">Masukin data kamu dulu ya!</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="title_signup_page">Lengkapi data dirimu dulu sebelum cerita ya!</string>
+    <string name="name">Name</string>
+    <string name="story_feed">Story Feed</string>
+    <string name="signup_btn">Belum punya akun? Daftar di sini</string>
+    <string name="new_story">New Story</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="description">Description</string>
+    <string name="upload">Upload</string>
+    <string name="empty_image_warning">Gambar belum ada</string>
+    <string name="upload_failed">Upload failed</string>
+</resources>
