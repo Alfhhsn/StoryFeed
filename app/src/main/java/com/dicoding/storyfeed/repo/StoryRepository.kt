@@ -19,4 +19,8 @@ class StoryRepository (private val apiService: ApiService){
     suspend fun addStories(description: RequestBody, file: MultipartBody.Part): UploadStoryResponse {
         return apiService.uploadStory(file, description)
     }
+
+    suspend fun getStoriesWithLocation(): StoryResponse {
+        return apiService.getStoriesWithLocation()
+    }
 }

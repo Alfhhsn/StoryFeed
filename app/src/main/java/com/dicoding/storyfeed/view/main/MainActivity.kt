@@ -6,7 +6,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.storyfeed.adapter.ListStoryAdapter
 import com.dicoding.storyfeed.databinding.ActivityMainBinding
-import com.dicoding.storyfeed.map.MapsActivity
 import com.dicoding.storyfeed.preferences.UserPreferences
 import com.dicoding.storyfeed.view.ViewModelFactory
 import com.dicoding.storyfeed.view.add.AddStoryActivity
@@ -39,10 +38,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             startActivity(intent)
         }
 
-        binding.mapButton.setOnClickListener {
-            val intent = Intent(this, MapsActivity::class.java)
-            startActivity(intent)
-        }
+//        binding.mapButton.setOnClickListener {
+//            val intent = Intent(this, MapsActivity::class.java)
+//            startActivity(intent)
+//        }
         binding.logoutButton.setOnClickListener {
             logout()
         }

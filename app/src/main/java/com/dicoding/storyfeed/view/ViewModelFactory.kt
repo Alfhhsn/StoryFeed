@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.dicoding.storyfeed.di.Injection
+import com.dicoding.storyfeed.map.MapViewModel
 import com.dicoding.storyfeed.repo.StoryRepository
 import com.dicoding.storyfeed.repo.UserRepository
 import com.dicoding.storyfeed.view.add.AddViewModel
@@ -37,6 +38,10 @@ class ViewModelFactory(
 
             modelClass.isAssignableFrom(AddViewModel::class.java) -> {
                 AddViewModel(storyRepository) as T
+            }
+
+            modelClass.isAssignableFrom(MapViewModel::class.java) -> {
+                MapViewModel(storyRepository) as T
             }
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
