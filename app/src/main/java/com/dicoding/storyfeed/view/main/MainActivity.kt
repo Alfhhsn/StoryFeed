@@ -21,7 +21,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private val viewModel: MainViewModel by viewModels {
         ViewModelFactory.getInstance(this)
     }
-    private val adapter = ListStoryAdapter(arrayListOf()) { story ->
+    private val adapter = ListStoryAdapter { story ->
         val intent = Intent(this, DetailActivity::class.java)
         intent.putExtra(DetailActivity.EXTRA_ID,story.id)
         startActivity(intent)
@@ -65,7 +65,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun onRestart() {
         super.onRestart()
     }
-
     private fun logout() {
 
         lifecycleScope.launch(Dispatchers.IO)  {

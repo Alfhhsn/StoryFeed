@@ -1,6 +1,5 @@
 package com.dicoding.storyfeed.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,6 @@ import com.dicoding.storyfeed.R
 import com.dicoding.storyfeed.response.ListStoryItem
 
 class ListStoryAdapter(
-    private val listStory: ArrayList<ListStoryItem>,
     private val onClick: (ListStoryItem) -> Unit
 ) : PagingDataAdapter<ListStoryItem, ListStoryAdapter.StoryViewHolder>(DIFF_CALLBACK) {
     class StoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -29,26 +27,19 @@ class ListStoryAdapter(
         return StoryViewHolder(view)
     }
 
-    override fun getItemCount(): Int = listStory.size
-
     override fun onBindViewHolder(holder: StoryViewHolder, position: Int) {
-        val story = listStory[position]
-        holder.tvName.text = story.name
-        holder.tvDescription.text = story.description
-        Glide.with(holder.itemView.context)
-            .load(story.photoUrl)
-            .into(holder.imgPhoto)
+        val story = getItem(position)
+        if (story!= null) {
+            holder.tvName.text = story.name
+            holder.tvDescription.text = story.description
+            Glide.with(holder.itemView.context)
+                .load(story.photoUrl)
+                .into(holder.imgPhoto)
 
-        holder.itemView.setOnClickListener {
-            onClick(story)
+            holder.itemView.setOnClickListener {
+                onClick(story)
+            }
         }
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun setStories(stories: List<ListStoryItem>) {
-        listStory.clear()
-        listStory.addAll(stories)
-        notifyDataSetChanged()
     }
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ListStoryItem>() {
