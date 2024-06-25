@@ -1,4 +1,5 @@
-import com.dicoding.storyfeed.api.ApiService
+package com.dicoding.storyfeed.api
+
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking

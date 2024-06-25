@@ -9,6 +9,7 @@
     tools:context=".view.SplashActivity">
 
   <ImageView
+      android:id="@+id/logo"
       android:layout_width="126dp"
       android:layout_height="195dp"
       android:contentDescription="@string/app_name"

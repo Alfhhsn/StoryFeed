@@ -19,4 +19,5 @@
     <string name="upload">Upload</string>
     <string name="empty_image_warning">Gambar belum ada</string>
     <string name="upload_failed">Upload failed</string>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>

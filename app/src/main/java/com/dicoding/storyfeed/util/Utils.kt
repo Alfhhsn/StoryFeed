@@ -1,4 +1,4 @@
-
+package com.dicoding.storyfeed.util
 import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap

@@ -1,52 +1,54 @@
 package com.dicoding.storyfeed.view
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.dicoding.storyfeed.R
 import com.dicoding.storyfeed.databinding.ActivitySplashBinding
-import com.dicoding.storyfeed.view.welcome.WelcomeActivity
+import com.dicoding.storyfeed.preferences.UserPreferences
+import com.dicoding.storyfeed.view.login.LoginActivity
+import com.dicoding.storyfeed.view.main.MainActivity
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.launch
 
+@SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
 
     private lateinit var binding:ActivitySplashBinding
+    private lateinit var logo: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivitySplashBinding.inflate(layoutInflater)
-        setAnimation()
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
         supportActionBar?.hide()
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this, WelcomeActivity::class.java)
-            startActivity(intent)
+        logo = findViewById(R.id.logo)
+        startAnimation()
+
+        val userPreference = UserPreferences.getInstance(this)
+
+        lifecycleScope.launch {
+            delay(2000)
+            val token = userPreference.tokenFlow.firstOrNull()
+            if (token != null) {
+                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+            } else {
+                startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+            }
             finish()
-        }, DELAY_TIME)
-    }
-
-    private fun setAnimation() {
-        val fadeIn: Animation = AnimationUtils.loadAnimation(this, R.anim.fade)
-
-        binding.apply {
-            main.startAnimation(fadeIn)
         }
     }
 
-    companion object {
-        const val DELAY_TIME = 2000L
+    private fun startAnimation() {
+        val fade = AnimationUtils.loadAnimation(this, R.anim.fade)
+        logo.startAnimation(fade)
     }
 }

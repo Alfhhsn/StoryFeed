@@ -17,6 +17,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StoryFeed"
         tools:targetApi="31">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBaR5VqvtiblHnurkQ12rG5O_NrQ9KJs24" />
+
+        <activity
+            android:name=".map.MapsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_maps" />
         <activity
             android:name=".view.detail.DetailActivity"
             android:exported="false" />
@@ -52,9 +61,8 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"/>
+                android:resource="@xml/file_paths" />
         </provider>
-
     </application>
 
 </manifest>

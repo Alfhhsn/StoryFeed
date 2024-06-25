@@ -31,9 +31,6 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         setContentView(_binding?.root)
         loadingDialog = ProgressDialog(this)
 
-//        if (!allPermissionsGranted()) {
-//            requestPermissionLauncher.launch(REQUIRED_PERMISSION)
-//        }
 
         initIntent()
         initUI()

@@ -5,8 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dicoding.storyfeed.api.UploadStoryResponse
 import com.dicoding.storyfeed.repo.StoryRepository
+import com.dicoding.storyfeed.response.UploadStoryResponse
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
@@ -20,9 +20,8 @@ class AddViewModel (private val storyRepository: StoryRepository): ViewModel() {
     private val _storiesResponse = MutableLiveData<UploadStoryResponse>()
     val storiesResponse: LiveData<UploadStoryResponse> get() = _storiesResponse
 
-    fun uploadStory(imageFile: File) {
+    fun uploadStory(imageFile: File, description: String) {
         Log.d("Image File", "showImage: ${imageFile.path}")
-        val description = "Ini adalah deskripsi gambar"
 
         val requestBody = description.toRequestBody("text/plain".toMediaType())
         val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
