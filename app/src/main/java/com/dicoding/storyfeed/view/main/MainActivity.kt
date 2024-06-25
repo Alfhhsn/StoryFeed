@@ -1,11 +1,13 @@
 package com.dicoding.storyfeed.view.main
 
 import android.content.Intent
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.storyfeed.adapter.ListStoryAdapter
 import com.dicoding.storyfeed.databinding.ActivityMainBinding
+import com.dicoding.storyfeed.map.MapsActivity
 import com.dicoding.storyfeed.preferences.UserPreferences
 import com.dicoding.storyfeed.view.ViewModelFactory
 import com.dicoding.storyfeed.view.add.AddStoryActivity
@@ -38,10 +40,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             startActivity(intent)
         }
 
-//        binding.mapButton.setOnClickListener {
-//            val intent = Intent(this, MapsActivity::class.java)
-//            startActivity(intent)
-//        }
+        binding.mapButton.setOnClickListener {
+            val intent = Intent(this, MapsActivity::class.java)
+            startActivity(intent)
+        }
         binding.logoutButton.setOnClickListener {
             logout()
         }
@@ -50,25 +52,22 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     override fun initProcess() {
-        viewModel.fetchStories()
+
     }
 
     override fun initObservers() {
         viewModel.stories.observe(this) { stories ->
-            adapter.setStories(stories)
+            Log.d("MainActivity", "initObservers: ${stories}")
+            adapter.submitData(lifecycle,stories)
         }
     }
 
     override fun onRestart() {
         super.onRestart()
-        viewModel.fetchStories()
     }
 
     private fun logout() {
-//        val sharedPreferences: SharedPreferences = getSharedPreferences("your_preference_name", MODE_PRIVATE)
-//        val editor = sharedPreferences.edit()
-//        editor.clear()
-//        editor.apply()
+
         lifecycleScope.launch(Dispatchers.IO)  {
             userPreferences.clearToken()
         }

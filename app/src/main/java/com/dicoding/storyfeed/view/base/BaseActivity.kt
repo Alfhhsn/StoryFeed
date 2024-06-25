@@ -13,7 +13,7 @@ import androidx.viewbinding.ViewBinding
 abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
     private var _binding: VB? = null
-    val binding get() = _binding!!
+    open val binding get() = _binding!!
     private lateinit var loadingDialog : ProgressDialog
 
     private val requestPermissionLauncher =
@@ -30,7 +30,6 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         _binding = getViewBinding()
         setContentView(_binding?.root)
         loadingDialog = ProgressDialog(this)
-
 
         initIntent()
         initUI()
@@ -68,9 +67,8 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     open fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
-    
+
     open fun showLoadingDialog() {
-        
         loadingDialog.setTitle("Please wait")
         loadingDialog.setMessage("Loading")
         loadingDialog.show()
