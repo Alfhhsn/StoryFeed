@@ -56,7 +56,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     override fun initObservers() {
-        viewModel.stories.observe(this) { stories ->
+        viewModel.getStories().observe(this) { stories ->
             Log.d("MainActivity", "initObservers: ${stories}")
             adapter.submitData(lifecycle,stories)
         }

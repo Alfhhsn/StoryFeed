@@ -24,6 +24,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
+import org.mockito.Mockito.mock
 import org.mockito.junit.MockitoJUnitRunner
 
 @ExperimentalCoroutinesApi
@@ -42,6 +43,7 @@ class StoryMainViewModelTest{
 
     @Before
     fun setUp() {
+        storyRepository = mock(StoryRepository::class.java)
         mainViewModel = MainViewModel(storyRepository)
     }
 
@@ -53,7 +55,7 @@ class StoryMainViewModelTest{
         expectedStories.value = data
         Mockito.`when`(storyRepository.getStories()).thenReturn(expectedStories)
 
-        val actualStories: PagingData<ListStoryItem> = mainViewModel.stories.getOrAwaitValue()
+        val actualStories: PagingData<ListStoryItem> = mainViewModel.getStories().getOrAwaitValue()
 
         val differ = AsyncPagingDataDiffer(
             diffCallback = DIFF_CALLBACK,
@@ -75,7 +77,7 @@ class StoryMainViewModelTest{
         expectedStories.value = data
         Mockito.`when`(storyRepository.getStories()).thenReturn(expectedStories)
 
-        val actualStories: PagingData<ListStoryItem> = mainViewModel.stories.getOrAwaitValue()
+        val actualStories: PagingData<ListStoryItem> = mainViewModel.getStories().getOrAwaitValue()
 
         val differ = AsyncPagingDataDiffer(
             diffCallback = DIFF_CALLBACK,

@@ -25,13 +25,11 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 
 class MapsActivity : BaseActivity<ActivityMapsBinding>(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
-    private val boundsBuilder = LatLngBounds.Builder()
 
     private val viewModel: MapViewModel by viewModels {
         ViewModelFactory.getInstance(this)
@@ -47,7 +45,7 @@ class MapsActivity : BaseActivity<ActivityMapsBinding>(), OnMapReadyCallback {
     }
 
     override fun initProcess() {
-        // Add any process initialization here
+
     }
 
     override fun initObservers() {
@@ -60,14 +58,14 @@ class MapsActivity : BaseActivity<ActivityMapsBinding>(), OnMapReadyCallback {
                     closeLoadingDialog()
                     val stories = result.data
                     stories.forEach { story ->
-                        story?.let { addMarker(it) }
+                        addMarker(story)
                     }
 
                     if (stories.isNotEmpty()) {
                         val firstStory = stories.first()
                         val latLng = LatLng(
-                            firstStory?.lat ?: 0.0,
-                            firstStory?.lon ?: 0.0
+                            firstStory.lat ?: 0.0,
+                            firstStory.lon ?: 0.0
                         )
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10f))
                     }
@@ -90,46 +88,7 @@ class MapsActivity : BaseActivity<ActivityMapsBinding>(), OnMapReadyCallback {
         mMap.uiSettings.isCompassEnabled = true
         mMap.uiSettings.isMapToolbarEnabled = true
 
-        val dicodingSpace = LatLng(-6.8957643, 107.6338462)
-        mMap.addMarker(
-            MarkerOptions()
-                .position(dicodingSpace)
-                .title("Dicoding Space")
-                .snippet("Batik Kumeli No.50")
-        )
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(dicodingSpace, 15f))
         getMyLocation()
-        addManyMarker()
-    }
-    data class TourismPlace(
-        val name: String,
-        val latitude: Double,
-        val longitude: Double
-    )
-
-    private fun addManyMarker() {
-        val tourismPlace = listOf(
-            TourismPlace("Floating Market Lembang", -6.8168954,107.6151046),
-            TourismPlace("The Great Asia Africa", -6.8331128,107.6048483),
-            TourismPlace("Rabbit Town", -6.8668408,107.608081),
-            TourismPlace("Alun-Alun Kota Bandung", -6.9218518,107.6025294),
-            TourismPlace("Orchid Forest Cikole", -6.780725, 107.637409),
-        )
-        tourismPlace.forEach { tourism ->
-            val latLng = LatLng(tourism.latitude, tourism.longitude)
-            mMap.addMarker(MarkerOptions().position(latLng).title(tourism.name))
-            boundsBuilder.include(latLng)
-        }
-
-        val bounds: LatLngBounds = boundsBuilder.build()
-        mMap.animateCamera(
-            CameraUpdateFactory.newLatLngBounds(
-                bounds,
-                resources.displayMetrics.widthPixels,
-                resources.displayMetrics.heightPixels,
-                300
-            )
-        )
     }
 
     private val requestPermissionLauncher =
@@ -158,19 +117,10 @@ class MapsActivity : BaseActivity<ActivityMapsBinding>(), OnMapReadyCallback {
         mMap.addMarker(
             MarkerOptions()
                 .position(latLng)
-                .title("New Marker")
-                .snippet("Lat: ${latLng.latitude} Long: ${latLng.longitude}")
-                .icon(vectorToBitmap(R.drawable.ic_android, Color.parseColor("#3DDC84")))
+                .title(data.name)
+                .snippet(data.description)
+                .icon(vectorToBitmap(R.drawable.ic_location, Color.parseColor("#3DDC84")))
         )
-        mMap.setOnPoiClickListener { pointOfInterest ->
-            val poiMarker = mMap.addMarker(
-                MarkerOptions()
-                    .position(pointOfInterest.latLng)
-                    .title(pointOfInterest.name)
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA))
-            )
-            poiMarker?.showInfoWindow()
-        }
     }
 
     private fun vectorToBitmap(@DrawableRes id: Int, @ColorInt color: Int): BitmapDescriptor {

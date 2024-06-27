@@ -9,6 +9,6 @@ import com.dicoding.storyfeed.response.ListStoryItem
 
 class MainViewModel (private val storyRepository: StoryRepository) : ViewModel(){
     private val _stories = MutableLiveData<List<ListStoryItem>>()
-    val stories = storyRepository.getStories().cachedIn(viewModelScope)
+    fun getStories() = storyRepository.getStories().cachedIn(viewModelScope)
 
 }
