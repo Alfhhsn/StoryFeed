@@ -57,12 +57,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun initObservers() {
         viewModel.getStories().observe(this) { stories ->
-            Log.d("MainActivity", "initObservers: ${stories}")
+            Log.d("MainActivity", "initObservers: $stories")
             adapter.submitData(lifecycle,stories)
         }
     }
 
     override fun onRestart() {
+        adapter.refresh()
         super.onRestart()
     }
     private fun logout() {

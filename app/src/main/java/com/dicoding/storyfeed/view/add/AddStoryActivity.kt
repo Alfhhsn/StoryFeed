@@ -1,5 +1,6 @@
 package com.dicoding.storyfeed.view.add
 
+import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import android.view.View
@@ -14,6 +15,7 @@ import com.dicoding.storyfeed.util.reduceFileImage
 import com.dicoding.storyfeed.util.uriToFile
 import com.dicoding.storyfeed.view.ViewModelFactory
 import com.dicoding.storyfeed.view.base.BaseActivity
+import com.dicoding.storyfeed.view.main.MainActivity
 
 class AddStoryActivity : BaseActivity<ActivityAddStoryBinding>() {
     private val viewModel: AddViewModel by viewModels {
@@ -37,6 +39,9 @@ class AddStoryActivity : BaseActivity<ActivityAddStoryBinding>() {
     ) { isSuccess ->
         if (isSuccess) {
             showImage()
+        }else{
+            currentImageUri = null
+            Log.e("ais", "Gambar belum muncul")
         }
     }
 
@@ -58,6 +63,7 @@ class AddStoryActivity : BaseActivity<ActivityAddStoryBinding>() {
         viewModel.storiesResponse.observe(this) { result ->
             showLoading(false)
             if (!result.error) {
+                startActivity(Intent(this, MainActivity::class.java))
                 finish()
             }
         }
@@ -79,9 +85,11 @@ class AddStoryActivity : BaseActivity<ActivityAddStoryBinding>() {
     }
 
     private fun uploadStory() {
-        val description = binding.addDescription.text.toString()
-        val imageFile = currentImageUri?.let { uriToFile(it, this).reduceFileImage() }
-        if (imageFile != null) {
+        val description = binding.addDescription.text.toString().trim()
+        val imageFile = currentImageUri?.let {
+            uriToFile(it, this@AddStoryActivity).reduceFileImage()
+        }
+        if (imageFile != null && description != "") {
             viewModel.uploadStory(imageFile, description)
             showLoading(true)
         } else {
